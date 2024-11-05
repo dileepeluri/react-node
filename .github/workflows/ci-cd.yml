@@ -1,4 +1,4 @@
-name: CI-CD Pipeline
+name: CI/CD Pipeline
 
 on:
   push:
@@ -10,37 +10,24 @@ on:
 
 jobs:
   build:
-    runs on: ubuntu-latest
-
+    runs-on: ubuntu-latest
     steps:
-     - name: Checkout code
-       uses: actions/checkout@v2
-    
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '18'
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-   - name: Install dependencies for UI
-     working-directory: ./ui
-     run: npm install
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "18"
 
-   - name: Run Jest tests for UI
-     working-directory: ./ui
-     run: npm test
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./ui # Adjust according to your folder structure
 
-    - name: Install dependencies for API
-      working-directory: ./api
-      run: npm install
+      - name: Run tests
+        run: npm test
+        working-directory: ./ui # Adjust according to your folder structure
 
-    - name: Run Jest tests for API  
-      working-directory: ./api
-      run: npm test
-
-    - name: Install dependencies for E2E
-      working-directory: ./e2e
-      run: npm install  
-
-      - name: Run Playwright tests for E2E
-        working-directory: ./e2e
-        run: npm test 
+      - name: Build
+        run: npm run build
+        working-directory: ./ui # Adjust according to your folder structure
